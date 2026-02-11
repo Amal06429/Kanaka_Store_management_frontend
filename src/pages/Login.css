@@ -35,21 +35,11 @@
 
 .logo-wrapper {
   margin-bottom: 30px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
 }
 
 .logo-circle {
-  width: 180px;
-  height: 180px;
+  width: 280px;
+  height: 280px;
   background: transparent;
   border-radius: 0;
   display: flex;

@@ -69,7 +69,7 @@ const Login = () => {
               <img src="/kanaka-logo.png" alt="Kanaka Logo" className="logo-image" />
             </div>
           </div>
-          <h1 className="brand-name">KANAKA</h1>
+          
           
           <div className="decorative-elements">
             <div className="circle circle-1"></div>
