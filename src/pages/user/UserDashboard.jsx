@@ -16,6 +16,8 @@ const UserDashboard = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [viewingFile, setViewingFile] = useState(null);
   const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
+  const [editingFile, setEditingFile] = useState(null);
+  const [showEditFileModal, setShowEditFileModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
@@ -286,6 +288,21 @@ const UserDashboard = () => {
 
   const handleCloseModal = () => {
     setViewingFile(null);
+  };
+
+  const handleEditFile = (file) => {
+    setEditingFile(file);
+    setShowEditFileModal(true);
+  };
+
+  const handleCloseEditFileModal = () => {
+    setShowEditFileModal(false);
+    setEditingFile(null);
+  };
+
+  const handleUpdateFile = async () => {
+    await loadUserFiles();
+    handleCloseEditFileModal();
   };
 
   const handleDownload = (fileUrl, fileName) => {
@@ -560,6 +577,9 @@ const UserDashboard = () => {
                         <button onClick={() => handleViewFile(file)} className="view-btn">
                           👁️ View
                         </button>
+                        <button onClick={() => handleEditFile(file)} className="edit-btn">
+                          ✏️ Edit
+                        </button>
                         <button onClick={() => deleteFile(file.id)} className="delete-btn-table">
                           🗑️ Delete
                         </button>
@@ -706,6 +726,166 @@ const UserDashboard = () => {
           </div>
         </div>
       )}
+
+      {/* Edit File Modal */}
+      {showEditFileModal && editingFile && (
+        <EditFileModal 
+          file={editingFile}
+          onClose={handleCloseEditFileModal}
+          onUpdate={handleUpdateFile}
+        />
+      )}
+    </div>
+  );
+};
+
+const EditFileModal = ({ file, onClose, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    heading: file.heading || '',
+    description: file.description || '',
+    uploaded_at: file.uploaded_at ? new Date(file.uploaded_at).toISOString().split('T')[0] : '',
+    document_type: file.document_type || '',
+    amount: file.amount || '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (formData.document_type === 'cheque' && !formData.amount) {
+      setError('Amount is required for cheque documents');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const updateData = {
+        heading: formData.heading,
+        description: formData.description,
+        uploaded_at: formData.uploaded_at,
+        document_type: formData.document_type,
+      };
+
+      if (formData.document_type === 'cheque' && formData.amount) {
+        updateData.amount = formData.amount;
+      }
+
+      await filesAPI.update(file.id, updateData);
+      onUpdate();
+    } catch (error) {
+      setError(error.message || 'Failed to update file');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="file-modal-overlay" onClick={onClose}>
+      <div className="file-modal edit-file-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="file-modal-header">
+          <h2>Edit File Details</h2>
+          <button className="close-modal-btn" onClick={onClose}>✕</button>
+        </div>
+        
+        <div className="file-modal-content">
+          {error && <div className="error-message">{error}</div>}
+          
+          <div className="file-info-section">
+            <p><strong>File Name:</strong> {file.name}</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Heading</label>
+              <input
+                type="text"
+                name="heading"
+                value={formData.heading}
+                onChange={handleChange}
+                placeholder="Enter file heading"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Document Type</label>
+              <select
+                name="document_type"
+                value={formData.document_type}
+                onChange={(e) => {
+                  handleChange(e);
+                  if (e.target.value !== 'cheque') {
+                    setFormData(prev => ({ ...prev, amount: '' }));
+                  }
+                }}
+              >
+                <option value="">Select Document Type</option>
+                <option value="expense_bill">Expense Bill</option>
+                <option value="cheque">Cheque</option>
+                <option value="purchase_bill">Purchase Bill</option>
+                <option value="legal_document">Legal Document</option>
+                <option value="other_bill">Other Bill</option>
+              </select>
+            </div>
+
+            {formData.document_type === 'cheque' && (
+              <div className="form-group">
+                <label>Amount <span className="required">*</span></label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter amount"
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+            )}
+
+            <div className="form-group">
+              <label>Upload Date</label>
+              <input
+                type="date"
+                name="uploaded_at"
+                value={formData.uploaded_at}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Enter file description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div className="file-modal-actions">
+              <button type="submit" className="submit-btn upload-btn" disabled={loading}>
+                {loading ? 'Updating...' : 'Update File'}
+              </button>
+              <button type="button" onClick={onClose} className="close-btn cancel-btn" disabled={loading}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

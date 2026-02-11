@@ -18,6 +18,8 @@ const AdminDashboard = () => {
   const [showUserModal, setShowUserModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
   
   // Upload states
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -216,6 +218,21 @@ const AdminDashboard = () => {
     setShowPassword(false);
   };
 
+  const handleEditUser = (userData) => {
+    setEditingUser(userData);
+    setShowEditUserModal(true);
+  };
+
+  const handleCloseEditUserModal = () => {
+    setShowEditUserModal(false);
+    setEditingUser(null);
+  };
+
+  const handleUpdateUser = async () => {
+    await loadUsers();
+    handleCloseEditUserModal();
+  };
+
   return (
     <div className="admin-dashboard">
       <div className="dashboard-header">
@@ -320,6 +337,13 @@ const AdminDashboard = () => {
                             title="View details"
                           >
                             👁️ View
+                          </button>
+                          <button 
+                            onClick={() => handleEditUser(u)}
+                            className="edit-btn"
+                            title="Edit user"
+                          >
+                            ✏️ Edit
                           </button>
                           <button 
                             onClick={() => deleteUser(u.id)}
@@ -579,6 +603,14 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+
+      {showEditUserModal && editingUser && (
+        <EditUserModal 
+          user={editingUser}
+          onClose={handleCloseEditUserModal}
+          onUpdate={handleUpdateUser}
+        />
+      )}
     </div>
   );
 };
@@ -587,6 +619,8 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [viewingFile, setViewingFile] = useState(null);
+  const [editingFile, setEditingFile] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
@@ -730,6 +764,21 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
     setViewingFile(null);
   };
 
+  const handleEditFile = (file) => {
+    setEditingFile(file);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingFile(null);
+  };
+
+  const handleUpdateFile = async () => {
+    await loadFiles();
+    handleCloseEditModal();
+  };
+
   const formatFileSize = (bytes) => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
@@ -840,6 +889,9 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
                   <td className="actions-cell">
                     <button onClick={() => handleViewFile(file)} className="view-btn">
                       👁️ View
+                    </button>
+                    <button onClick={() => handleEditFile(file)} className="edit-btn">
+                      ✏️ Edit
                     </button>
                     <button onClick={() => handleDownload(file)} className="download-btn-table">
                       ⬇️ Download
@@ -979,6 +1031,165 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
           </div>
         </div>
       )}
+
+      {showEditModal && editingFile && (
+        <AdminEditFileModal 
+          file={editingFile}
+          onClose={handleCloseEditModal}
+          onUpdate={handleUpdateFile}
+        />
+      )}
+    </div>
+  );
+};
+
+const AdminEditFileModal = ({ file, onClose, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    heading: file.heading || '',
+    description: file.description || '',
+    uploaded_at: file.uploaded_at ? new Date(file.uploaded_at).toISOString().split('T')[0] : '',
+    document_type: file.document_type || '',
+    amount: file.amount || '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (formData.document_type === 'cheque' && !formData.amount) {
+      setError('Amount is required for cheque documents');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const updateData = {
+        heading: formData.heading,
+        description: formData.description,
+        uploaded_at: formData.uploaded_at,
+        document_type: formData.document_type,
+      };
+
+      if (formData.document_type === 'cheque' && formData.amount) {
+        updateData.amount = formData.amount;
+      }
+
+      await filesAPI.update(file.id, updateData);
+      onUpdate();
+    } catch (error) {
+      setError(error.message || 'Failed to update file');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="file-modal-overlay" onClick={onClose}>
+      <div className="file-modal edit-file-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="file-modal-header">
+          <h2>Edit File Details</h2>
+          <button className="close-modal-btn" onClick={onClose}>✕</button>
+        </div>
+        
+        <div className="file-modal-content">
+          {error && <div className="error-message">{error}</div>}
+          
+          <div className="file-info-section">
+            <p><strong>File Name:</strong> {file.name}</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Heading</label>
+              <input
+                type="text"
+                name="heading"
+                value={formData.heading}
+                onChange={handleChange}
+                placeholder="Enter file heading"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Document Type</label>
+              <select
+                name="document_type"
+                value={formData.document_type}
+                onChange={(e) => {
+                  handleChange(e);
+                  if (e.target.value !== 'cheque') {
+                    setFormData(prev => ({ ...prev, amount: '' }));
+                  }
+                }}
+              >
+                <option value="">Select Document Type</option>
+                <option value="expense_bill">Expense Bill</option>
+                <option value="cheque">Cheque</option>
+                <option value="purchase_bill">Purchase Bill</option>
+                <option value="legal_document">Legal Document</option>
+                <option value="other_bill">Other Bill</option>
+              </select>
+            </div>
+
+            {formData.document_type === 'cheque' && (
+              <div className="form-group">
+                <label>Amount <span className="required">*</span></label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter amount"
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+            )}
+
+            <div className="form-group">
+              <label>Upload Date</label>
+              <input
+                type="date"
+                name="uploaded_at"
+                value={formData.uploaded_at}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Enter file description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div className="file-modal-actions">
+              <button type="submit" className="submit-btn upload-btn" disabled={loading}>
+                {loading ? 'Updating...' : 'Update File'}
+              </button>
+              <button type="button" onClick={onClose} className="close-btn cancel-btn" disabled={loading}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
@@ -1120,6 +1331,165 @@ const CreateUserForm = ({ onUserCreated }) => {
           {loading ? 'Creating...' : 'Create User'}
         </button>
       </form>
+    </div>
+  );
+};
+
+const EditUserModal = ({ user, onClose, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    username: user.username || '',
+    password: '',
+    shop_name: user.shop_name || '',
+    staff_name: user.staff_name || '',
+    mobile_number: user.mobile_number || '',
+    email: user.email || '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!formData.username) {
+      setError('Username is required');
+      return;
+    }
+
+    if (formData.password && formData.password.length < 4) {
+      setError('Password must be at least 4 characters');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const updateData = {
+        username: formData.username,
+        shop_name: formData.shop_name,
+        staff_name: formData.staff_name,
+        mobile_number: formData.mobile_number,
+        email: formData.email,
+      };
+
+      // Only include password if it was changed
+      if (formData.password) {
+        updateData.password = formData.password;
+      }
+
+      await usersAPI.update(user.id, updateData);
+      onUpdate();
+    } catch (error) {
+      setError(error.message || 'Failed to update user');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="user-modal-overlay" onClick={onClose}>
+      <div className="user-modal edit-user-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="user-modal-header">
+          <h2>Edit User</h2>
+          <button className="close-modal-btn" onClick={onClose}>✕</button>
+        </div>
+        
+        <div className="user-modal-content">
+          {error && <div className="error-message">{error}</div>}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Username <span className="required">*</span></label>
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Enter username"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Password <span className="optional">(leave blank to keep current)</span></label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter new password"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Shop Name</label>
+                <input
+                  type="text"
+                  name="shop_name"
+                  value={formData.shop_name}
+                  onChange={handleChange}
+                  placeholder="Enter shop name"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Staff Name</label>
+                <input
+                  type="text"
+                  name="staff_name"
+                  value={formData.staff_name}
+                  onChange={handleChange}
+                  placeholder="Enter staff name"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Mobile Number</label>
+                <input
+                  type="tel"
+                  name="mobile_number"
+                  value={formData.mobile_number}
+                  onChange={handleChange}
+                  placeholder="Enter mobile number"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter email"
+                />
+              </div>
+            </div>
+
+            <div className="user-modal-actions">
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? 'Updating...' : 'Update User'}
+              </button>
+              <button type="button" onClick={onClose} className="close-btn" disabled={loading}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

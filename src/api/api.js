@@ -177,6 +177,13 @@ export const filesAPI = {
     return await response.json();
   },
 
+  update: async (id, fileData) => {
+    return await apiRequest(`/files/${id}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(fileData),
+    });
+  },
+
   delete: async (id) => {
     return await apiRequest(`/files/${id}/`, {
       method: 'DELETE',

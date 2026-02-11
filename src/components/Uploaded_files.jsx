@@ -8,12 +8,15 @@ import './Uploaded_files.css';
 const Uploaded_files = ({ refreshTrigger }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [filterUser, setFilterUser] = useState('');
-  const [filterDate, setFilterDate] = useState('');
+  const [filterDate, setFilterDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
+  const [filterStatus, setFilterStatus] = useState(''); // New status filter
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [editingFile, setEditingFile] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const { user } = useAuth();
@@ -208,6 +211,21 @@ const Uploaded_files = ({ refreshTrigger }) => {
     }
   };
 
+  const handleEditFile = (file) => {
+    setEditingFile(file);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingFile(null);
+  };
+
+  const handleUpdateFile = async () => {
+    await loadFiles();
+    handleCloseEditModal();
+  };
+
   const getFilteredAndSortedFiles = () => {
     if (!Array.isArray(uploadedFiles)) {
       return [];
@@ -242,6 +260,13 @@ const Uploaded_files = ({ refreshTrigger }) => {
       });
     }
 
+    // Filter by status
+    if (filterStatus) {
+      filtered = filtered.filter(file => 
+        (file.status || 'pending') === filterStatus
+      );
+    }
+
     // Sort
     switch (sortBy) {
       case 'date-desc':
@@ -271,7 +296,8 @@ const Uploaded_files = ({ refreshTrigger }) => {
 
   const clearFilters = () => {
     setFilterUser('');
-    setFilterDate('');
+    setFilterDate(new Date().toISOString().split('T')[0]); // Reset to today
+    setFilterStatus('');
     setSearchQuery('');
     setSortBy('date-desc');
     setCurrentPage(1);
@@ -329,6 +355,20 @@ const Uploaded_files = ({ refreshTrigger }) => {
             value={filterDate}
             onChange={(e) => { setFilterDate(e.target.value); setCurrentPage(1); }}
           />
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="filter-status">Filter by Status:</label>
+          <select
+            id="filter-status"
+            value={filterStatus}
+            onChange={(e) => { setFilterStatus(e.target.value); setCurrentPage(1); }}
+          >
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="verified">Verified</option>
+            <option value="rejected">Rejected</option>
+          </select>
         </div>
 
         <div className="filter-group">
@@ -412,6 +452,13 @@ const Uploaded_files = ({ refreshTrigger }) => {
                       title="View details"
                     >
                       👁️ View
+                    </button>
+                    <button 
+                      onClick={() => handleEditFile(file)}
+                      className="edit-btn"
+                      title="Edit file"
+                    >
+                      ✏️ Edit
                     </button>
                     <button 
                       onClick={() => deleteFile(file.id)}
@@ -602,6 +649,166 @@ const Uploaded_files = ({ refreshTrigger }) => {
           </div>
         </div>
       )}
+
+      {showEditModal && editingFile && (
+        <EditFileModal 
+          file={editingFile}
+          onClose={handleCloseEditModal}
+          onUpdate={handleUpdateFile}
+        />
+      )}
+    </div>
+  );
+};
+
+const EditFileModal = ({ file, onClose, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    heading: file.heading || '',
+    description: file.description || '',
+    uploaded_at: file.uploaded_at ? new Date(file.uploaded_at).toISOString().split('T')[0] : '',
+    document_type: file.document_type || '',
+    amount: file.amount || '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (formData.document_type === 'cheque' && !formData.amount) {
+      setError('Amount is required for cheque documents');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const updateData = {
+        heading: formData.heading,
+        description: formData.description,
+        uploaded_at: formData.uploaded_at,
+        document_type: formData.document_type,
+      };
+
+      if (formData.document_type === 'cheque' && formData.amount) {
+        updateData.amount = formData.amount;
+      }
+
+      await filesAPI.update(file.id, updateData);
+      onUpdate();
+    } catch (error) {
+      setError(error.message || 'Failed to update file');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="file-modal-overlay" onClick={onClose}>
+      <div className="file-modal edit-file-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="file-modal-header">
+          <h2>Edit File Details</h2>
+          <button className="close-modal-btn" onClick={onClose}>✕</button>
+        </div>
+        
+        <div className="file-modal-content">
+          {error && <div className="error-message">{error}</div>}
+          
+          <div className="file-info-section">
+            <p><strong>File Name:</strong> {file.name}</p>
+            <p><strong>Uploaded By:</strong> {file.user_username}</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Heading</label>
+              <input
+                type="text"
+                name="heading"
+                value={formData.heading}
+                onChange={handleChange}
+                placeholder="Enter file heading"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Document Type</label>
+              <select
+                name="document_type"
+                value={formData.document_type}
+                onChange={(e) => {
+                  handleChange(e);
+                  if (e.target.value !== 'cheque') {
+                    setFormData(prev => ({ ...prev, amount: '' }));
+                  }
+                }}
+              >
+                <option value="">Select Document Type</option>
+                <option value="expense_bill">Expense Bill</option>
+                <option value="cheque">Cheque</option>
+                <option value="purchase_bill">Purchase Bill</option>
+                <option value="legal_document">Legal Document</option>
+                <option value="other_bill">Other Bill</option>
+              </select>
+            </div>
+
+            {formData.document_type === 'cheque' && (
+              <div className="form-group">
+                <label>Amount <span className="required">*</span></label>
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter amount"
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+            )}
+
+            <div className="form-group">
+              <label>Upload Date</label>
+              <input
+                type="date"
+                name="uploaded_at"
+                value={formData.uploaded_at}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Enter file description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div className="file-modal-actions">
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? 'Updating...' : 'Update File'}
+              </button>
+              <button type="button" onClick={onClose} className="close-btn" disabled={loading}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

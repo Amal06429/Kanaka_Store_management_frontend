@@ -1428,3 +1428,668 @@
 .no-files-message {
   color: #C9A84C;
 }
+
+/* ============================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) {
+  .dashboard-content {
+    padding: 15px;
+  }
+
+  .users-table {
+    font-size: 13px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 10px 8px;
+  }
+
+  .files-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .filter-controls {
+    gap: 10px;
+  }
+
+  .search-filter input {
+    min-width: 200px;
+  }
+}
+
+/* Mobile Styles - Large (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Header Adjustments */
+  .dashboard-header {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-header p {
+    font-size: 13px;
+  }
+
+  .profile-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* Tabs */
+  .dashboard-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 10px;
+  }
+
+  .tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* Content */
+  .dashboard-content {
+    padding: 15px 10px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  .create-user-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  /* Forms */
+  .create-user-form,
+  .upload-form-wrapper {
+    padding: 20px 15px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Users Table */
+  .users-list {
+    padding: 15px;
+    overflow-x: auto;
+  }
+
+  .users-table {
+    font-size: 12px;
+    min-width: 600px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .view-user-btn,
+  .delete-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  /* Upload Section */
+  .upload-section-header {
+    padding: 15px 20px;
+  }
+
+  .upload-section-header h2 {
+    font-size: 18px;
+  }
+
+  .file-dropzone {
+    padding: 15px;
+  }
+
+  .file-upload-label {
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px;
+  }
+
+  /* Filter Controls */
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-filter,
+  .date-filter {
+    width: 100%;
+  }
+
+  .search-filter input {
+    min-width: 100%;
+  }
+
+  .date-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Files Table */
+  .files-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .files-table {
+    font-size: 12px;
+    min-width: 700px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 8px 6px;
+  }
+
+  .si-number-cell {
+    width: 50px;
+    font-size: 12px;
+  }
+
+  .file-type-icon-cell {
+    width: 50px;
+  }
+
+  .file-type-icon-cell svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .file-name-cell {
+    max-width: 200px;
+  }
+
+  .actions-cell {
+    width: auto;
+  }
+
+  .view-btn,
+  .download-btn-table,
+  .delete-btn-table {
+    padding: 4px 8px;
+    font-size: 11px;
+    margin-right: 3px;
+  }
+
+  /* Files Grid */
+  .files-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .file-card {
+    padding: 15px;
+  }
+
+  /* Modals */
+  .user-modal,
+  .file-modal {
+    max-width: 95%;
+    margin: 10px;
+  }
+
+  .user-modal-header,
+  .file-modal-header {
+    padding: 15px 20px;
+  }
+
+  .user-modal-header h2,
+  .file-modal-header h2 {
+    font-size: 18px;
+  }
+
+  .user-modal-content,
+  .file-modal-content {
+    padding: 20px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .detail-row strong {
+    min-width: auto;
+  }
+
+  .file-modal-actions,
+  .user-modal-actions {
+    flex-direction: column;
+  }
+
+  .file-modal-actions button,
+  .user-modal-actions button {
+    width: 100%;
+  }
+
+  .modal-file-preview {
+    max-height: 250px;
+  }
+
+  .modal-pdf-preview {
+    height: 350px;
+  }
+
+  /* Pagination */
+  .pagination {
+    padding: 15px 10px;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .pagination-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 35px;
+  }
+
+  .pagination-numbers {
+    gap: 3px;
+  }
+
+  /* Form Actions */
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .upload-btn,
+  .clear-btn,
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+/* Mobile Styles - Medium (max-width: 600px) */
+@media (max-width: 600px) {
+  .dashboard-header {
+    padding: 12px 15px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 20px;
+  }
+
+  .dashboard-header p {
+    font-size: 12px;
+  }
+
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dashboard-tabs {
+    padding: 0 5px;
+  }
+
+  .tab {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+
+  .dashboard-content {
+    padding: 12px 8px;
+  }
+
+  .section-header h2 {
+    font-size: 18px;
+  }
+
+  .create-user-form,
+  .upload-form-wrapper,
+  .users-list {
+    padding: 15px 12px;
+  }
+
+  .users-table {
+    min-width: 550px;
+  }
+
+  .upload-section-header {
+    padding: 12px 15px;
+  }
+
+  .file-dropzone {
+    padding: 12px;
+  }
+
+  .selected-files {
+    padding: 12px;
+  }
+
+  .files-table {
+    min-width: 650px;
+  }
+
+  .file-card {
+    padding: 12px;
+  }
+
+  .user-modal-content,
+  .file-modal-content {
+    padding: 15px;
+  }
+}
+
+/* Mobile Styles - Small (max-width: 480px) */
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 10px 12px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 18px;
+  }
+
+  .dashboard-header p {
+    font-size: 11px;
+  }
+
+  .profile-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logout-btn {
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .dashboard-content {
+    padding: 10px 5px;
+  }
+
+  .section-header {
+    margin-bottom: 15px;
+  }
+
+  .section-header h2 {
+    font-size: 16px;
+  }
+
+  .create-user-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .create-user-form,
+  .upload-form-wrapper,
+  .users-list,
+  .admin-files-section,
+  .users-files-section {
+    padding: 12px 10px;
+    border-radius: 6px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-input,
+  .form-textarea {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .upload-section-header h2 {
+    font-size: 16px;
+  }
+
+  .dropdown-toggle-btn {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+
+  .file-upload-label {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .file-dropzone {
+    padding: 10px;
+  }
+
+  .selected-files {
+    padding: 10px;
+  }
+
+  .files-list li {
+    padding: 6px;
+    font-size: 13px;
+  }
+
+  .form-actions button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .users-table {
+    font-size: 11px;
+    min-width: 500px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 6px 4px;
+  }
+
+  .view-user-btn,
+  .delete-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .files-table {
+    font-size: 11px;
+    min-width: 600px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 6px 4px;
+  }
+
+  .view-btn,
+  .download-btn-table,
+  .delete-btn-table {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .file-card {
+    padding: 10px;
+  }
+
+  .file-icon {
+    font-size: 36px;
+  }
+
+  .file-heading-admin {
+    font-size: 16px;
+  }
+
+  .file-description-admin {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .file-name-admin {
+    font-size: 13px;
+  }
+
+  .file-meta {
+    font-size: 12px;
+  }
+
+  .user-modal,
+  .file-modal {
+    max-width: 100%;
+    margin: 5px;
+    border-radius: 8px;
+  }
+
+  .user-modal-header,
+  .file-modal-header {
+    padding: 12px 15px;
+  }
+
+  .user-modal-header h2,
+  .file-modal-header h2 {
+    font-size: 16px;
+  }
+
+  .close-modal-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .user-modal-content,
+  .file-modal-content {
+    padding: 12px;
+  }
+
+  .detail-item {
+    padding: 10px;
+  }
+
+  .detail-item label {
+    font-size: 12px;
+  }
+
+  .detail-item span {
+    font-size: 14px;
+  }
+
+  .file-preview-section {
+    padding: 15px;
+  }
+
+  .modal-file-preview {
+    max-height: 200px;
+  }
+
+  .modal-pdf-preview {
+    height: 300px;
+  }
+
+  .large-file-icon {
+    font-size: 60px;
+  }
+
+  .file-type-label {
+    font-size: 16px;
+  }
+
+  .file-details {
+    padding: 15px;
+  }
+
+  .detail-row {
+    padding: 8px 0;
+  }
+
+  .detail-row strong {
+    font-size: 13px;
+  }
+
+  .detail-row span {
+    font-size: 13px;
+  }
+
+  .file-modal-actions button,
+  .user-modal-actions button {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  .pagination {
+    padding: 10px 5px;
+  }
+
+  .pagination-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+    min-width: 30px;
+  }
+
+  .no-files,
+  .no-data {
+    padding: 30px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Styles - Extra Small (max-width: 375px) */
+@media (max-width: 375px) {
+  .dashboard-header h1 {
+    font-size: 16px;
+  }
+
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tab {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .section-header h2 {
+    font-size: 15px;
+  }
+
+  .users-table,
+  .files-table {
+    font-size: 10px;
+    min-width: 400px;
+  }
+
+  .users-table th,
+  .users-table td,
+  .files-table th,
+  .files-table td {
+    padding: 4px 2px;
+  }
+
+  .view-btn,
+  .download-btn-table,
+  .delete-btn-table,
+  .view-user-btn,
+  .delete-btn {
+    padding: 2px 5px;
+    font-size: 9px;
+  }
+}

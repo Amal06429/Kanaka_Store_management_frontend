@@ -711,13 +711,106 @@
   display: block;
 }
 
+/* ============================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet Styles (768px - 1024px) */
+@media (max-width: 1024px) {
+  .uploaded-files-container {
+    padding: 12px;
+  }
+
+  .files-header h2 {
+    font-size: 22px;
+  }
+
+  .filters-section {
+    padding: 12px;
+  }
+
+  .filter-group {
+    min-width: 150px;
+  }
+
+  .filter-group:first-child {
+    min-width: 250px;
+  }
+
+  .files-table {
+    font-size: 13px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 10px 8px;
+  }
+}
+
+/* Mobile Styles - Large (max-width: 768px) */
 @media (max-width: 768px) {
+  /* Container */
+  .uploaded-files-container {
+    padding: 10px;
+  }
+
+  /* Header */
+  .files-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .files-header h2 {
+    font-size: 20px;
+  }
+
+  .files-count {
+    font-size: 13px;
+  }
+
+  /* Filters */
+  .filters-section {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .filter-group,
+  .filter-group:first-child {
+    min-width: 100%;
+    flex: 1;
+  }
+
+  .filter-group label {
+    font-size: 13px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .clear-filters-btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* Table */
   .files-table-container {
     border-radius: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .files-table {
     font-size: 12px;
+    min-width: 650px;
   }
 
   .files-table th,
@@ -749,6 +842,10 @@
     padding: 4px 8px;
   }
 
+  .file-name-cell {
+    max-width: 200px;
+  }
+
   .view-btn,
   .delete-btn-table {
     padding: 4px 8px;
@@ -756,26 +853,26 @@
     margin-right: 4px;
   }
 
-  .view-btn {
-    display: inline-block;
-  }
-
+  /* Modal */
   .file-modal {
     max-width: 95%;
     margin: 10px;
+  }
+
+  .file-modal-header {
+    padding: 15px 20px;
   }
 
   .file-modal-header h2 {
     font-size: 18px;
   }
 
-  .detail-row {
-    flex-direction: column;
-    gap: 5px;
+  .file-modal-content {
+    padding: 20px;
   }
 
-  .detail-row strong {
-    min-width: auto;
+  .file-preview-section {
+    padding: 15px;
   }
 
   .modal-file-preview {
@@ -786,38 +883,45 @@
     height: 350px;
   }
 
+  .file-details {
+    padding: 15px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 0;
+  }
+
+  .detail-row strong {
+    min-width: auto;
+    font-size: 13px;
+  }
+
+  .detail-row span {
+    font-size: 13px;
+  }
+
+  .file-modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .file-modal-actions button,
+  .file-modal-actions a {
+    width: 100%;
+  }
+
   .open-pdf-btn {
     width: 100%;
     padding: 14px;
   }
 
-  .files-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .filters-section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filter-group,
-  .filter-group:first-child {
-    min-width: 100%;
-  }
-  
-  .clear-filters-btn {
-    width: 100%;
-  }
-
-  .files-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
+  /* Pagination */
   .pagination {
     padding: 15px 10px;
     gap: 5px;
+    flex-wrap: wrap;
   }
 
   .pagination-btn {
@@ -829,4 +933,280 @@
   .pagination-numbers {
     gap: 3px;
   }
+
+  /* No Files Message */
+  .no-files-message {
+    padding: 40px 15px;
+  }
+
+  .no-files-message p {
+    font-size: 15px;
+  }
 }
+
+/* Mobile Styles - Medium (max-width: 600px) */
+@media (max-width: 600px) {
+  .uploaded-files-container {
+    padding: 8px;
+  }
+
+  .files-header {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .files-header h2 {
+    font-size: 18px;
+  }
+
+  .files-count {
+    font-size: 12px;
+  }
+
+  .filters-section {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .filter-group label {
+    font-size: 12px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+
+  .clear-filters-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .files-table {
+    font-size: 11px;
+    min-width: 600px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 6px 5px;
+  }
+
+  .file-modal-content {
+    padding: 15px;
+  }
+
+  .file-preview-section {
+    padding: 12px;
+  }
+}
+
+/* Mobile Styles - Small (max-width: 480px) */
+@media (max-width: 480px) {
+  .uploaded-files-container {
+    padding: 5px;
+  }
+
+  .files-header {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+
+  .files-header h2 {
+    font-size: 16px;
+  }
+
+  .files-count {
+    font-size: 11px;
+  }
+
+  .filters-section {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .filter-group {
+    gap: 4px;
+  }
+
+  .filter-group label {
+    font-size: 11px;
+  }
+
+  .filter-group input,
+  .filter-group select {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .clear-filters-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+    height: 32px;
+  }
+
+  .files-table {
+    font-size: 10px;
+    min-width: 550px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 5px 4px;
+  }
+
+  .si-number-cell {
+    width: 40px;
+  }
+
+  .file-type-icon-cell {
+    width: 40px;
+  }
+
+  .file-type-icon-cell svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .status-dropdown,
+  .status-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .view-btn,
+  .delete-btn-table {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .file-modal {
+    max-width: 100%;
+    margin: 5px;
+    border-radius: 8px;
+  }
+
+  .file-modal-header {
+    padding: 12px 15px;
+  }
+
+  .file-modal-header h2 {
+    font-size: 16px;
+  }
+
+  .close-modal-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .file-modal-content {
+    padding: 12px;
+  }
+
+  .file-preview-section {
+    padding: 10px;
+  }
+
+  .modal-file-preview {
+    max-height: 200px;
+  }
+
+  .modal-pdf-preview {
+    height: 300px;
+  }
+
+  .large-file-icon {
+    font-size: 60px;
+  }
+
+  .file-type-label {
+    font-size: 16px;
+  }
+
+  .file-details {
+    padding: 12px;
+  }
+
+  .detail-row {
+    padding: 6px 0;
+  }
+
+  .detail-row strong,
+  .detail-row span {
+    font-size: 12px;
+  }
+
+  .file-modal-actions button,
+  .file-modal-actions a {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  .open-pdf-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .pagination {
+    padding: 10px 5px;
+  }
+
+  .pagination-btn {
+    padding: 5px 8px;
+    font-size: 11px;
+    min-width: 30px;
+  }
+
+  .no-files-message {
+    padding: 30px 10px;
+  }
+
+  .no-files-message p {
+    font-size: 14px;
+  }
+
+  .file-card {
+    padding: 10px;
+  }
+
+  .file-icon-large {
+    font-size: 48px;
+  }
+}
+
+/* Mobile Styles - Extra Small (max-width: 375px) */
+@media (max-width: 375px) {
+  .files-header h2 {
+    font-size: 15px;
+  }
+
+  .files-count {
+    font-size: 10px;
+  }
+
+  .filters-section {
+    padding: 6px;
+  }
+
+  .files-table {
+    font-size: 9px;
+    min-width: 500px;
+  }
+
+  .files-table th,
+  .files-table td {
+    padding: 4px 2px;
+  }
+
+  .view-btn,
+  .delete-btn-table {
+    padding: 2px 4px;
+    font-size: 9px;
+  }
+
+  .pagination-btn {
+    padding: 4px 6px;
+    font-size: 10px;
+    min-width: 28px;
