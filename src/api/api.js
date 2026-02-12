@@ -25,7 +25,7 @@ const apiRequest = async (endpoint, options = {}) => {
     ...options.headers,
   };
 
-  // Only add Content-Type for non-FormData requests
+  // Only add Content-Type for non-FormData request
   if (!(options.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
