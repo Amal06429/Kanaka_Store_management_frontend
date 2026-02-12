@@ -161,20 +161,48 @@ export const filesAPI = {
   upload: async (formData) => {
     const token = getAuthToken();
     
-    const response = await fetch(`${API_URL}/files/`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    console.log('Uploading file to:', `${API_URL}/files/`);
+    
+    try {
+      const response = await fetch(`${API_URL}/files/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Upload failed');
+      console.log('Upload response status:', response.status);
+
+      // Check content type to handle HTML error pages
+      const contentType = response.headers.get('content-type');
+      
+      if (!response.ok) {
+        let errorMessage = 'Upload failed';
+        
+        if (contentType && contentType.includes('application/json')) {
+          const error = await response.json();
+          errorMessage = error.detail || error.message || 'Upload failed';
+        } else {
+          // Server returned HTML or non-JSON error
+          const errorText = await response.text();
+          console.error('Server error (HTML response):', errorText.substring(0, 500));
+          errorMessage = `Server error (${response.status}): Check backend logs for details`;
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      // Parse successful response
+      if (contentType && contentType.includes('application/json')) {
+        return await response.json();
+      } else {
+        throw new Error('Server returned non-JSON response');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      throw error;
     }
-
-    return await response.json();
   },
 
   update: async (id, fileData) => {
