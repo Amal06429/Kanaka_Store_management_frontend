@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { filesAPI } from '../../api/api';
-import './UserDashboard.css';
+import './UserDashboard.scss';
 
 const UserDashboard = () => {
   const [files, setFiles] = useState([]);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { filesAPI } from '../api/api';
 import { getAuthToken } from '../api/api';
 import { useAuth } from '../context/AuthContext';
-import './Uploaded_files.css';
+import './Uploaded_files.scss';
 
 const Uploaded_files = ({ refreshTrigger }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);

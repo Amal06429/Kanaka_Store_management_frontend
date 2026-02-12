@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { usersAPI, filesAPI } from '../../api/api';
 import Uploaded_files from '../../components/Uploaded_files';
-import './AdminDashboard.css';
+import './AdminDashboard.scss';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState(() => {
