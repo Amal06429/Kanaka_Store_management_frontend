@@ -7,8 +7,8 @@ import './AdminDashboard.scss';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState(() => {
-    // Get saved tab from localStorage or default to 'users'
-    return localStorage.getItem('adminActiveTab') || 'users';
+    // Get saved tab from localStorage or default to 'dailyReport'
+    return localStorage.getItem('adminActiveTab') || 'dailyReport';
   });
   const [users, setUsers] = useState([]);
   const [showCreateUser, setShowCreateUser] = useState(false);
@@ -20,6 +20,12 @@ const AdminDashboard = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
+  
+  // Daily report states
+  const [dailyReportFiles, setDailyReportFiles] = useState([]);
+  const [loadingDailyReport, setLoadingDailyReport] = useState(false);
+  const [expandedUser, setExpandedUser] = useState(null);
+  const [reportDate, setReportDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
   
   // Upload states
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -49,6 +55,11 @@ const AdminDashboard = () => {
       console.log('AdminDashboard: Files tab activated, triggering refresh');
       setRefreshFiles(prev => prev + 1);
     }
+    // Load daily report when switching to daily report tab
+    if (activeTab === 'dailyReport') {
+      console.log('AdminDashboard: Daily Report tab activated, loading daily report');
+      loadDailyReport();
+    }
     // Save active tab to localStorage
     localStorage.setItem('adminActiveTab', activeTab);
   }, [activeTab]);
@@ -65,6 +76,13 @@ const AdminDashboard = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showProfileDropdown]);
 
+  useEffect(() => {
+    // Reload daily report when date changes
+    if (activeTab === 'dailyReport') {
+      loadDailyReport();
+    }
+  }, [reportDate]);
+
   const loadUsers = async () => {
     setLoading(true);
     try {
@@ -77,6 +95,26 @@ const AdminDashboard = () => {
       setUsers([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadDailyReport = async () => {
+    setLoadingDailyReport(true);
+    try {
+      // Use backend date filtering for better performance
+      const data = await filesAPI.getAll({ date: reportDate });
+      
+      // Filter out admin uploads (backend already filters by date)
+      const filteredFiles = Array.isArray(data) 
+        ? data.filter(file => file.user_role !== 'admin')
+        : [];
+      
+      setDailyReportFiles(filteredFiles);
+    } catch (error) {
+      console.error('Failed to load daily report:', error);
+      setDailyReportFiles([]);
+    } finally {
+      setLoadingDailyReport(false);
     }
   };
 
@@ -269,6 +307,12 @@ const AdminDashboard = () => {
 
       <div className="dashboard-tabs">
         <button 
+          className={activeTab === 'dailyReport' ? 'tab active' : 'tab'}
+          onClick={() => setActiveTab('dailyReport')}
+        >
+          Daily Report
+        </button>
+        <button 
           className={activeTab === 'users' ? 'tab active' : 'tab'}
           onClick={() => setActiveTab('users')}
         >
@@ -289,6 +333,241 @@ const AdminDashboard = () => {
       </div>
 
       <div className="dashboard-content">
+        {activeTab === 'dailyReport' && (
+          <div className="daily-report-section">
+            <div className="section-header">
+              <h2>📊 Daily Upload Report - {new Date(reportDate).toLocaleDateString('en-GB')}</h2>
+            </div>
+            
+            {/* Date Filter Controls */}
+            <div className="report-date-filter">
+              <div className="date-filter-group">
+                <label htmlFor="report-date">Select Date:</label>
+                <input
+                  type="date"
+                  id="report-date"
+                  value={reportDate}
+                  onChange={(e) => {
+                    setReportDate(e.target.value);
+                    setExpandedUser(null); // Collapse any expanded user when changing date
+                  }}
+                  max={new Date().toISOString().split('T')[0]} // Prevent selecting future dates
+                  className="date-input"
+                />
+              </div>
+              <div className="date-quick-buttons">
+                <button 
+                  onClick={() => {
+                    setReportDate(new Date().toISOString().split('T')[0]);
+                    setExpandedUser(null);
+                  }}
+                  className={reportDate === new Date().toISOString().split('T')[0] ? 'quick-btn active' : 'quick-btn'}
+                >
+                  Today
+                </button>
+                <button 
+                  onClick={() => {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    setReportDate(yesterday.toISOString().split('T')[0]);
+                    setExpandedUser(null);
+                  }}
+                  className={(() => {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    return reportDate === yesterday.toISOString().split('T')[0] ? 'quick-btn active' : 'quick-btn';
+                  })()}
+                >
+                  Yesterday
+                </button>
+                <button 
+                  onClick={() => {
+                    const lastWeek = new Date();
+                    lastWeek.setDate(lastWeek.getDate() - 7);
+                    setReportDate(lastWeek.toISOString().split('T')[0]);
+                    setExpandedUser(null);
+                  }}
+                  className="quick-btn"
+                >
+                  Last 7 Days Ago
+                </button>
+              </div>
+            </div>
+            
+            {loadingDailyReport ? (
+              <p className="loading">Loading daily report...</p>
+            ) : dailyReportFiles.length === 0 ? (
+              <div className="no-data-card">
+                <p>No uploads recorded on {new Date(reportDate).toLocaleDateString('en-GB')}.</p>
+              </div>
+            ) : (
+              <div className="daily-report-content">
+                <div className="report-summary">
+                  <div className="summary-card">
+                    <div className="summary-icon">📁</div>
+                    <div className="summary-details">
+                      <h3>{dailyReportFiles.length}</h3>
+                      <p>Total Uploads</p>
+                    </div>
+                  </div>
+                  <div className="summary-card">
+                    <div className="summary-icon">👥</div>
+                    <div className="summary-details">
+                      <h3>{new Set(dailyReportFiles.map(f => f.user_username)).size}</h3>
+                      <p>Active Users</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="daily-uploads-table">
+                  <h3>Uploads by User</h3>
+                  <table className="report-table">
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Files Uploaded</th>
+                        <th>Latest Upload</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(
+                        dailyReportFiles.reduce((acc, file) => {
+                          const username = file.user_username || 'Unknown';
+                          if (!acc[username]) {
+                            acc[username] = {
+                              count: 0,
+                              files: [],
+                              latestUpload: file.uploaded_at,
+                              statuses: { pending: 0, verified: 0, rejected: 0 }
+                            };
+                          }
+                          acc[username].count++;
+                          acc[username].files.push(file);
+                          acc[username].statuses[file.status || 'pending']++;
+                          if (new Date(file.uploaded_at) > new Date(acc[username].latestUpload)) {
+                            acc[username].latestUpload = file.uploaded_at;
+                          }
+                          return acc;
+                        }, {})
+                      ).map(([username, data]) => (
+                        <>
+                          <tr key={username} className={expandedUser === username ? 'expanded-row' : ''}>
+                            <td data-label="User"><strong>{username}</strong></td>
+                            <td data-label="Files Uploaded">{data.count} file{data.count > 1 ? 's' : ''}</td>
+                            <td data-label="Latest Upload">{new Date(data.latestUpload).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</td>
+                            <td data-label="Status">
+                              <div className="status-summary">
+                                {data.statuses.verified > 0 && (
+                                  <span className="status-badge-small status-verified">
+                                    ✓ {data.statuses.verified}
+                                  </span>
+                                )}
+                                {data.statuses.pending > 0 && (
+                                  <span className="status-badge-small status-pending">
+                                    ⏳ {data.statuses.pending}
+                                  </span>
+                                )}
+                                {data.statuses.rejected > 0 && (
+                                  <span className="status-badge-small status-rejected">
+                                    ✕ {data.statuses.rejected}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td data-label="Actions">
+                              <button 
+                                onClick={() => setExpandedUser(expandedUser === username ? null : username)}
+                                className="view-files-btn"
+                                title={expandedUser === username ? "Hide files" : "View files"}
+                              >
+                                {expandedUser === username ? '▲ Hide' : '▼ View Files'}
+                              </button>
+                            </td>
+                          </tr>
+                          {expandedUser === username && (
+                            <tr key={`${username}-files`} className="expanded-files-row">
+                              <td colSpan="5">
+                                <div className="files-detail-section">
+                                  <h4>Files uploaded by {username} on {new Date(reportDate).toLocaleDateString('en-GB')}:</h4>
+                                  <div className="files-list-grid">
+                                    {data.files.map((file) => (
+                                      <div key={file.id} className="file-card">
+                                        <div className="file-card-header">
+                                          <div className="file-icon-name">
+                                            <span className="file-emoji">
+                                              {file.file_type?.startsWith('image/') ? '🖼️' : 
+                                               file.name.endsWith('.pdf') ? '📄' : 
+                                               file.name.endsWith('.doc') || file.name.endsWith('.docx') ? '📝' : 
+                                               file.name.endsWith('.xls') || file.name.endsWith('.xlsx') ? '📊' : '📎'}
+                                            </span>
+                                            <div className="file-info">
+                                              <strong>{file.heading || file.name}</strong>
+                                              <small>{file.name}</small>
+                                            </div>
+                                          </div>
+                                          <span className={`status-badge status-${file.status || 'pending'}`}>
+                                            {(file.status || 'pending').charAt(0).toUpperCase() + (file.status || 'pending').slice(1)}
+                                          </span>
+                                        </div>
+                                        <div className="file-card-body">
+                                          {file.description && <p className="file-description">{file.description}</p>}
+                                          {file.document_type && (
+                                            <p className="file-doc-type">
+                                              <strong>Type:</strong> {file.document_type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                            </p>
+                                          )}
+                                          {file.amount && (
+                                            <p className="file-amount">
+                                              <strong>Amount:</strong> ₹{parseFloat(file.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                                            </p>
+                                          )}
+                                          <p className="file-time">
+                                            <strong>Uploaded:</strong> {new Date(file.uploaded_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                                          </p>
+                                        </div>
+                                        <div className="file-card-actions">
+                                          {file.file_url && (
+                                            <a 
+                                              href={file.file_url} 
+                                              target="_blank" 
+                                              rel="noopener noreferrer"
+                                              className="download-btn-small"
+                                              title="Download file"
+                                            >
+                                              💾 Download
+                                            </a>
+                                          )}
+                                          {file.file_type?.startsWith('image/') && file.file_url && (
+                                            <a 
+                                              href={file.file_url} 
+                                              target="_blank" 
+                                              rel="noopener noreferrer"
+                                              className="preview-btn-small"
+                                              title="Preview image"
+                                            >
+                                              👁️ Preview
+                                            </a>
+                                          )}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === 'users' && (
           <div className="users-section">
             <div className="section-header">
@@ -324,13 +603,13 @@ const AdminDashboard = () => {
                   <tbody>
                     {users.map(u => (
                       <tr key={u.id}>
-                        <td><strong>{u.username}</strong></td>
-                        <td>{u.shop_name || '-'}</td>
-                        <td>{u.staff_name || '-'}</td>
-                        <td>{u.mobile_number || '-'}</td>
-                        <td>{u.email || '-'}</td>
-                        <td>{new Date(u.created_at).toLocaleDateString('en-GB')}</td>
-                        <td>
+                        <td data-label="Username"><strong>{u.username}</strong></td>
+                        <td data-label="Shop Name">{u.shop_name || '-'}</td>
+                        <td data-label="Staff Name">{u.staff_name || '-'}</td>
+                        <td data-label="Mobile">{u.mobile_number || '-'}</td>
+                        <td data-label="Email">{u.email || '-'}</td>
+                        <td data-label="Created At">{new Date(u.created_at).toLocaleDateString('en-GB')}</td>
+                        <td data-label="Actions">
                           <button 
                             onClick={() => handleViewUser(u)}
                             className="view-user-btn"
@@ -878,15 +1157,15 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
             <tbody>
               {currentFiles.map((file, index) => (
                 <tr key={file.id}>
-                  <td className="si-number-cell">{indexOfFirstItem + index + 1}</td>
-                  <td className="file-name-cell">
+                  <td className="si-number-cell" data-label="SI No">{indexOfFirstItem + index + 1}</td>
+                  <td className="file-name-cell" data-label="File Name">
                     <span className="file-name-text">{file.heading || file.name}</span>
                   </td>
-                  <td>{formatDate(file.uploaded_at)}</td>
-                  <td className="file-type-icon-cell">
+                  <td data-label="Upload Date">{formatDate(file.uploaded_at)}</td>
+                  <td className="file-type-icon-cell" data-label="File Type">
                     {getFileTypeIcon(file.name)}
                   </td>
-                  <td className="actions-cell">
+                  <td className="actions-cell" data-label="Actions">
                     <button onClick={() => handleViewFile(file)} className="view-btn">
                       👁️ View
                     </button>

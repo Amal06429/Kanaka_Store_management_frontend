@@ -421,14 +421,14 @@ const Uploaded_files = ({ refreshTrigger }) => {
             <tbody>
               {currentFiles.map((file, index) => (
                 <tr key={file.id}>
-                  <td className="si-number-cell">{indexOfFirstItem + index + 1}</td>
-                  <td className="file-name-cell">
+                  <td className="si-number-cell" data-label="SI No.">{indexOfFirstItem + index + 1}</td>
+                  <td className="file-name-cell" data-label="File Name">
                     <span className="file-name-text">{file.heading || file.name}</span>
                   </td>
-                  <td><strong>{getFirstName(file.user_username)}</strong></td>
-                  <td>{formatDate(file.uploaded_at)}</td>
-                  <td className="file-type-icon-cell">{getFileTypeIcon(file.name)}</td>
-                  <td className="status-cell">
+                  <td data-label="Uploaded By"><strong>{getFirstName(file.user_username)}</strong></td>
+                  <td data-label="Upload Date">{formatDate(file.uploaded_at)}</td>
+                  <td className="file-type-icon-cell" data-label="File Type">{getFileTypeIcon(file.name)}</td>
+                  <td className="status-cell" data-label="Status">
                     {user?.role === 'admin' ? (
                       <select 
                         value={file.status || 'pending'}
@@ -445,7 +445,7 @@ const Uploaded_files = ({ refreshTrigger }) => {
                       </span>
                     )}
                   </td>
-                  <td className="actions-cell">
+                  <td className="actions-cell" data-label="Actions">
                     <button 
                       onClick={() => handleViewFile(file)}
                       className="view-btn"
@@ -465,7 +465,7 @@ const Uploaded_files = ({ refreshTrigger }) => {
                       className="delete-btn-table"
                       title="Delete file"
                     >
-                      🗑️
+                      🗑️ Delete
                     </button>
                   </td>
                 </tr>

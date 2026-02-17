@@ -205,6 +205,411 @@
   flex: 1;
 }
 
+/* Daily Report Section */
+.daily-report-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #C9A84C;
+}
+
+.daily-report-section .section-header h2 {
+  color: #1a1a2e;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.no-data-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color: #666;
+  border: 2px dashed #ddd;
+}
+
+.daily-report-content {
+  margin-top: 20px;
+}
+
+/* Date Filter Controls */
+.report-date-filter {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.date-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.date-filter-group label {
+  font-weight: 600;
+  color: #1a1a2e;
+  font-size: 14px;
+}
+
+.date-input {
+  padding: 10px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #C9A84C;
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+}
+
+.date-quick-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-btn {
+  padding: 10px 20px;
+  border: 2px solid #C9A84C;
+  background: white;
+  color: #C9A84C;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.quick-btn:hover {
+  background: rgba(201, 168, 76, 0.1);
+  transform: translateY(-2px);
+}
+
+.quick-btn.active {
+  background: linear-gradient(135deg, #C9A84C 0%, #B8960C 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+}
+
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #C9A84C 0%, #B8960C 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 10px rgba(201, 168, 76, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+}
+
+.summary-icon {
+  font-size: 48px;
+  opacity: 0.9;
+}
+
+.summary-details h3 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.summary-details p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.daily-uploads-table {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.daily-uploads-table h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #1a1a2e;
+  font-size: 20px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-table thead {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+}
+
+.report-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.report-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s;
+}
+
+.report-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.report-table td {
+  padding: 15px;
+  color: #333;
+}
+
+.status-summary {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-badge-small {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-badge-small.status-verified {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge-small.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge-small.status-rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Daily Report - View Files Button */
+.view-files-btn {
+  background: linear-gradient(135deg, #C9A84C 0%, #B8960C 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.view-files-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+}
+
+/* Expanded Row Styles */
+.expanded-row {
+  background-color: #f8f9fa;
+}
+
+.expanded-files-row {
+  background-color: #ffffff;
+}
+
+.expanded-files-row td {
+  padding: 0 !important;
+}
+
+.files-detail-section {
+  padding: 25px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 4px solid #C9A84C;
+}
+
+.files-detail-section h4 {
+  margin: 0 0 20px 0;
+  color: #1a1a2e;
+  font-size: 18px;
+}
+
+.files-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.file-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 4px solid #C9A84C;
+}
+
+.file-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.file-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.file-icon-name {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.file-emoji {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.file-info strong {
+  font-size: 15px;
+  color: #1a1a2e;
+  display: block;
+  word-break: break-word;
+}
+
+.file-info small {
+  font-size: 12px;
+  color: #6c757d;
+  display: block;
+}
+
+.file-card-body {
+  margin-bottom: 15px;
+}
+
+.file-card-body p {
+  margin: 8px 0;
+  font-size: 13px;
+  color: #495057;
+}
+
+.file-description {
+  font-style: italic;
+  color: #6c757d;
+}
+
+.file-doc-type,
+.file-amount,
+.file-time {
+  display: flex;
+  gap: 5px;
+}
+
+.file-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.download-btn-small,
+.preview-btn-small {
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.download-btn-small {
+  background: linear-gradient(135deg, #28a745 0%, #20903a 100%);
+  color: white;
+}
+
+.download-btn-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.preview-btn-small {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.preview-btn-small:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-badge.status-verified {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.status-rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -1100,6 +1505,7 @@
 }
 
 .view-btn,
+.edit-btn,
 .download-btn-table,
 .delete-btn-table {
   padding: 6px 12px;
@@ -1119,6 +1525,16 @@
 
 .view-btn:hover {
   background-color: #B8960C;
+  transform: translateY(-1px);
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
   transform: translateY(-1px);
 }
 
@@ -1501,6 +1917,228 @@
     padding: 15px 10px;
   }
 
+  /* Daily Report Section */
+  .daily-report-section {
+    padding: 20px 15px;
+  }
+
+  .daily-report-section .section-header h2 {
+    font-size: 18px;
+  }
+
+  /* Date Filter Controls */
+  .report-date-filter {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .date-filter-group {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .date-input {
+    width: 100%;
+    padding: 8px 12px;
+  }
+
+  .date-quick-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .quick-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 70px;
+  }
+
+  .report-summary {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .summary-card {
+    padding: 20px;
+  }
+
+  .summary-icon {
+    font-size: 36px;
+  }
+
+  .summary-details h3 {
+    font-size: 28px;
+  }
+
+  .daily-uploads-table {
+    padding: 15px;
+    overflow: visible;
+  }
+
+  .report-table {
+    display: block;
+    border: none;
+  }
+
+  .report-table thead {
+    display: none;
+  }
+
+  .report-table tbody {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .report-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #C9A84C;
+  }
+
+  .report-table tbody tr:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .report-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+  }
+
+  .report-table td:last-child {
+    border-bottom: none;
+  }
+
+  .report-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+    min-width: 120px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .report-table .status-summary {
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+
+  .report-table .view-files-btn {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* Expanded files row on mobile */
+  .expanded-files-row {
+    display: block !important;
+    background: #f8f9fa !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 15px !important;
+    margin-top: 10px !important;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    border-left: 4px solid #1a1a2e !important;
+  }
+
+  .expanded-files-row td {
+    display: block !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .expanded-files-row td::before {
+    display: none !important;
+  }
+
+  .files-detail-section h4 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #1a1a2e;
+  }
+
+  .files-list-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .file-card {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .file-emoji {
+    font-size: 24px;
+  }
+
+  .file-info strong {
+    font-size: 13px;
+  }
+
+  .file-info small {
+    font-size: 11px;
+  }
+
+  .file-card-body p {
+    font-size: 12px;
+    margin: 6px 0;
+  }
+
+  .file-card-actions {
+    gap: 8px;
+  }
+
+  .download-btn-small,
+  .preview-btn-small {
+    padding: 8px 12px;
+    font-size: 12px;
+    flex: 1;
+  }
+
+  /* Daily Report - Files Detail */
+  .files-list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .file-card {
+    padding: 15px;
+  }
+
+  .file-emoji {
+    font-size: 28px;
+  }
+
+  .file-info strong {
+    font-size: 14px;
+  }
+
+  .files-detail-section {
+    padding: 20px 15px;
+  }
+
+  .view-files-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
@@ -1527,27 +2165,87 @@
     gap: 15px;
   }
 
-  /* Users Table */
+  /* Users Table - Card Layout on Mobile */
   .users-list {
     padding: 15px;
-    overflow-x: auto;
+    overflow: visible;
   }
 
   .users-table {
-    font-size: 12px;
-    min-width: 600px;
+    display: block;
+    border: none;
   }
 
-  .users-table th,
+  .users-table thead {
+    display: none;
+  }
+
+  .users-table tbody {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .users-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #C9A84C;
+  }
+
+  .users-table tbody tr:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
   .users-table td {
-    padding: 8px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+  }
+
+  .users-table td:last-child {
+    border-bottom: none;
+  }
+
+  .users-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+    min-width: 100px;
     font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .users-table td:last-child {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 2px solid #f0f0f0;
+  }
+
+  .users-table td:last-child::before {
+    width: 100%;
+    margin-bottom: 8px;
   }
 
   .view-user-btn,
+  .edit-btn,
   .delete-btn {
-    padding: 5px 10px;
-    font-size: 12px;
+    flex: 1;
+    min-width: calc(50% - 4px);
+    margin-right: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    text-align: center;
   }
 
   /* Upload Section */
@@ -1589,50 +2287,107 @@
     align-items: stretch;
   }
 
-  /* Files Table */
+  /* Files Table - Card Layout on Mobile */
   .files-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 
   .files-table {
-    font-size: 12px;
-    min-width: 700px;
+    display: block;
+    border: none;
   }
 
-  .files-table th,
+  .files-table thead {
+    display: none;
+  }
+
+  .files-table tbody {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .files-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #C9A84C;
+  }
+
+  .files-table tbody tr:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
   .files-table td {
-    padding: 8px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+  }
+
+  .files-table td:last-child {
+    border-bottom: none;
+  }
+
+  .files-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+    min-width: 100px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .si-number-cell {
-    width: 50px;
-    font-size: 12px;
-  }
-
-  .file-type-icon-cell {
-    width: 50px;
-  }
-
-  .file-type-icon-cell svg {
-    width: 18px;
-    height: 18px;
+    width: auto;
+    justify-content: flex-start;
   }
 
   .file-name-cell {
-    max-width: 200px;
+    max-width: 100%;
+  }
+
+  .file-name-text {
+    text-align: right;
+    flex: 1;
+    font-size: 13px;
+  }
+
+  .file-type-icon-cell {
+    width: auto;
+    justify-content: flex-start;
   }
 
   .actions-cell {
-    width: auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 0 0 0;
+    margin-top: 8px;
+    border-top: 2px solid #f0f0f0;
+  }
+
+  .actions-cell::before {
+    width: 100%;
+    margin-bottom: 8px;
   }
 
   .view-btn,
+  .edit-btn,
   .download-btn-table,
   .delete-btn-table {
-    padding: 4px 8px;
-    font-size: 11px;
-    margin-right: 3px;
+    flex: 1;
+    min-width: calc(50% - 4px);
+    margin-right: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    text-align: center;
   }
 
   /* Files Grid */
@@ -1765,8 +2520,25 @@
     padding: 15px 12px;
   }
 
-  .users-table {
-    min-width: 550px;
+  /* Keep card layout - adjust sizing */
+  .users-table tbody tr,
+  .files-table tbody tr {
+    padding: 14px;
+  }
+
+  .users-table td,
+  .files-table td {
+    font-size: 12px;
+  }
+
+  .view-user-btn,
+  .edit-btn,
+  .delete-btn,
+  .view-btn,
+  .download-btn-table,
+  .delete-btn-table {
+    padding: 8px 10px;
+    font-size: 12px;
   }
 
   .upload-section-header {
@@ -1779,10 +2551,6 @@
 
   .selected-files {
     padding: 12px;
-  }
-
-  .files-table {
-    min-width: 650px;
   }
 
   .file-card {
@@ -1826,6 +2594,96 @@
 
   .dashboard-content {
     padding: 10px 5px;
+  }
+
+  /* Daily Report Section */
+  .daily-report-section {
+    padding: 15px 10px;
+  }
+
+  .daily-report-section .section-header h2 {
+    font-size: 16px;
+  }
+
+  /* Date Filter Controls */
+  .report-date-filter {
+    padding: 12px;
+  }
+
+  .date-quick-buttons {
+    gap: 8px;
+  }
+
+  .quick-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-width: 60px;
+  }
+
+  .summary-card {
+    padding: 15px;
+  }
+
+  .summary-icon {
+    font-size: 28px;
+  }
+
+  .summary-details h3 {
+    font-size: 24px;
+  }
+
+  .summary-details p {
+    font-size: 12px;
+  }
+
+  .daily-uploads-table h3 {
+    font-size: 16px;
+  }
+
+  .report-table {
+    font-size: 11px;
+  }
+
+  .report-table th,
+  .report-table td {
+    padding: 8px 5px;
+  }
+
+  .status-badge-small {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  /* Daily Report - Files Detail Mobile */
+  .file-card {
+    padding: 12px;
+  }
+
+  .file-card-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .file-emoji {
+    font-size: 24px;
+  }
+
+  .file-info strong {
+    font-size: 13px;
+  }
+
+  .file-card-body p {
+    font-size: 12px;
+  }
+
+  .files-detail-section h4 {
+    font-size: 16px;
+  }
+
+  .download-btn-small,
+  .preview-btn-small {
+    padding: 6px 12px;
+    font-size: 11px;
   }
 
   .section-header {
@@ -1894,37 +2752,36 @@
     font-size: 14px;
   }
 
-  .users-table {
-    font-size: 11px;
-    min-width: 500px;
+  /* Card adjustments for small mobile */
+  .users-table tbody tr,
+  .files-table tbody tr {
+    padding: 12px;
   }
 
-  .users-table th,
-  .users-table td {
-    padding: 6px 4px;
+  .users-table td,
+  .files-table td {
+    padding: 6px 0;
+    font-size: 12px;
+  }
+
+  .users-table td::before,
+  .files-table td::before {
+    font-size: 11px;
+    min-width: 90px;
+  }
+
+  .file-name-text {
+    font-size: 12px;
   }
 
   .view-user-btn,
-  .delete-btn {
-    padding: 4px 8px;
-    font-size: 11px;
-  }
-
-  .files-table {
-    font-size: 11px;
-    min-width: 600px;
-  }
-
-  .files-table th,
-  .files-table td {
-    padding: 6px 4px;
-  }
-
+  .edit-btn,
+  .delete-btn,
   .view-btn,
   .download-btn-table,
   .delete-btn-table {
-    padding: 3px 6px;
-    font-size: 10px;
+    padding: 8px 10px;
+    font-size: 11px;
   }
 
   .file-card {
@@ -2071,25 +2928,30 @@
     font-size: 15px;
   }
 
-  .users-table,
-  .files-table {
-    font-size: 10px;
-    min-width: 400px;
+  /* Extra small mobile - keep cards */
+  .users-table tbody tr,
+  .files-table tbody tr {
+    padding: 10px;
   }
 
-  .users-table th,
   .users-table td,
-  .files-table th,
   .files-table td {
-    padding: 4px 2px;
+    font-size: 11px;
+  }
+
+  .users-table td::before,
+  .files-table td::before {
+    font-size: 10px;
+    min-width: 80px;
   }
 
   .view-btn,
+  .edit-btn,
   .download-btn-table,
   .delete-btn-table,
   .view-user-btn,
   .delete-btn {
-    padding: 2px 5px;
-    font-size: 9px;
+    padding: 7px 8px;
+    font-size: 10px;
   }
 }

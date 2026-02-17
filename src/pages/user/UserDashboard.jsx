@@ -559,21 +559,21 @@ const UserDashboard = () => {
                 <tbody>
                   {currentFiles.map((file, index) => (
                     <tr key={file.id}>
-                      <td className="si-number-cell">{indexOfFirstItem + index + 1}</td>
-                      <td className="file-name-cell">
+                      <td className="si-number-cell" data-label="SI No">{indexOfFirstItem + index + 1}</td>
+                      <td className="file-name-cell" data-label="File Name">
                         <span className="file-name-text">{file.heading || file.name}</span>
                       </td>
-                      <td>{getFirstName(file.uploaded_by_name || user?.username)}</td>
-                      <td>{formatDate(file.uploaded_at)}</td>
-                      <td className="file-type-icon-cell">
+                      <td data-label="Uploaded By">{getFirstName(file.uploaded_by_name || user?.username)}</td>
+                      <td data-label="Upload Date">{formatDate(file.uploaded_at)}</td>
+                      <td className="file-type-icon-cell" data-label="File Type">
                         {getFileTypeIcon(file.name)}
                       </td>
-                      <td className="status-cell">
+                      <td className="status-cell" data-label="Status">
                         <span className={`status-badge status-${file.status || 'pending'}`}>
                           {file.status || 'pending'}
-                        </span>
+                        </span> 
                       </td>
-                      <td className="actions-cell">
+                      <td className="actions-cell" data-label="Actions">
                         <button onClick={() => handleViewFile(file)} className="view-btn">
                           👁️ View
                         </button>
