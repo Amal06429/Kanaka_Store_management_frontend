@@ -57,25 +57,6 @@
   gap: 12px;
 }
 
-.header-icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: transparent;
-  border: none;
-  color: #999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.header-icon-btn:hover {
-  background: #F5F5F5;
-  color: #666;
-}
-
 .logout-btn {
   background-color: rgba(97, 218, 251, 0.1);
   color: #61DAFB;
@@ -1731,6 +1712,13 @@ x}
   white-space: nowrap;
 }
 
+.action-icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
 .view-btn,
 .edit-btn,
 .download-btn-table,
@@ -2619,27 +2607,36 @@ x}
   }
 
   .actions-cell {
+    display: flex;
     flex-wrap: wrap;
     gap: 8px;
     padding: 12px 0 0 0;
     margin-top: 8px;
     border-top: 2px solid #f0f0f0;
+    align-items: center;
   }
 
   .actions-cell::before {
+    flex-basis: 100%;
+    margin-bottom: 4px;
+  }
+
+  .action-icons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
     width: 100%;
-    margin-bottom: 8px;
   }
 
   .view-btn,
   .edit-btn,
   .download-btn-table,
   .delete-btn-table {
-    flex: 1;
-    min-width: calc(50% - 4px);
+    flex: 0 0 auto;
+    min-width: auto;
     margin-right: 0;
-    padding: 10px 12px;
-    font-size: 13px;
+    padding: 8px 10px;
+    font-size: 20px;
     text-align: center;
   }
 
@@ -2784,6 +2781,10 @@ x}
     font-size: 12px;
   }
 
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-user-btn,
   .edit-btn,
   .delete-btn,
@@ -2791,7 +2792,7 @@ x}
   .download-btn-table,
   .delete-btn-table {
     padding: 8px 10px;
-    font-size: 12px;
+    font-size: 18px;
   }
 
   .upload-section-header {
@@ -3027,14 +3028,18 @@ x}
     font-size: 12px;
   }
 
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-user-btn,
   .edit-btn,
   .delete-btn,
   .view-btn,
   .download-btn-table,
   .delete-btn-table {
-    padding: 8px 10px;
-    font-size: 11px;
+    padding: 7px 9px;
+    font-size: 17px;
   }
 
   .file-card {
@@ -3198,13 +3203,17 @@ x}
     min-width: 80px;
   }
 
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-btn,
   .edit-btn,
   .download-btn-table,
   .delete-btn-table,
   .view-user-btn,
   .delete-btn {
-    padding: 7px 8px;
-    font-size: 10px;
+    padding: 6px 8px;
+    font-size: 16px;
   }
 }

@@ -509,6 +509,13 @@
   white-space: nowrap;
 }
 
+.action-icons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
 .view-btn,
 .edit-btn,
 .delete-btn-table {
@@ -1300,32 +1307,36 @@
   }
 
   .actions-cell {
+    display: flex;
     flex-wrap: wrap;
     gap: 8px;
     padding: 12px 0 0 0;
     margin-top: 8px;
     border-top: 2px solid #f0f0f0;
+    align-items: center;
   }
 
   .actions-cell::before {
+    flex-basis: 100%;
+    margin-bottom: 4px;
+  }
+
+  .action-icons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
     width: 100%;
-    margin-bottom: 8px;
   }
 
   .view-btn,
   .edit-btn,
   .delete-btn-table {
-    flex: 1;
-    min-width: calc(50% - 4px);
+    flex: 0 0 auto;
+    min-width: auto;
     margin-right: 0;
-    padding: 10px 12px;
-    font-size: 13px;
+    padding: 8px 10px;
+    font-size: 20px;
     text-align: center;
-  }
-
-  .delete-btn-table {
-    flex: 1;
-    min-width: calc(50% - 4px);
   }
 
   .files-table th,
@@ -1510,11 +1521,15 @@
   }
 
   /* Keep card layout */
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-btn,
   .edit-btn,
   .delete-btn-table {
     padding: 8px 10px;
-    font-size: 12px;
+    font-size: 18px;
   }
 
   .files-grid {
@@ -1669,11 +1684,15 @@
     padding: 3px 6px;
   }
 
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-btn,
   .edit-btn,
   .delete-btn-table {
-    padding: 8px 10px;
-    font-size: 11px;
+    padding: 7px 9px;
+    font-size: 17px;
   }
 
   .files-grid {
@@ -1828,11 +1847,15 @@
     min-width: 80px;
   }
 
+  .action-icons {
+    gap: 6px;
+  }
+
   .view-btn,
   .edit-btn,
   .delete-btn-table {
-    padding: 7px 8px;
-    font-size: 10px;
+    padding: 6px 8px;
+    font-size: 16px;
   }
 
   .upload-btn,
