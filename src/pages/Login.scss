@@ -7,7 +7,7 @@
 /* Left Side - Branding */
 .login-branding {
   flex: 1;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0d0d0d 100%);
+  background: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,17 +38,21 @@
 }
 
 .logo-circle {
-  width: 280px;
-  height: 280px;
-  background: transparent;
-  border-radius: 0;
+  width: 120px;
+  height: 120px;
+  background: #2c3e50;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  box-shadow: none;
-  border: none;
-  overflow: hidden;
+  margin: 0 auto 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+}
+
+.shopping-bag-icon {
+  width: 100%;
+  height: 100%;
 }
 
 .logo-image {
@@ -58,116 +62,32 @@
 }
 
 .logo-text {
-  font-size: 80px;
-  font-weight: 900;
+  font-size: 64px;
+  font-weight: 700;
   color: #D4AF37;
-  font-family: 'Arial Black', sans-serif;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Georgia', serif;
+  text-shadow: none;
 }
 
 .brand-name {
-  font-size: 64px;
-  font-weight: 900;
+  font-size: 36px;
+  font-weight: 600;
   color: #D4AF37;
-  margin: 20px 0 10px 0;
-  letter-spacing: 8px;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  font-family: 'Arial Black', sans-serif;
+  margin: 0 0 12px 0;
+  letter-spacing: 12px;
+  text-shadow: none;
+  font-family: 'Arial', sans-serif;
 }
 
 .brand-tagline {
-  font-size: 18px;
-  color: rgba(212, 175, 55, 0.8);
-  margin: 0 0 40px 0;
-  font-weight: 300;
-  letter-spacing: 2px;
+  font-size: 15px;
+  color: #7f8c8d;
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
-.decorative-elements {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
 
-.circle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(212, 175, 55, 0.08);
-  animation: pulse 4s ease-in-out infinite;
-}
-
-.circle-1 {
-  width: 300px;
-  height: 300px;
-  top: -100px;
-  right: -100px;
-  animation-delay: 0s;
-}
-
-.circle-2 {
-  width: 200px;
-  height: 200px;
-  bottom: 50px;
-  left: -50px;
-  animation-delay: 1s;
-}
-
-.circle-3 {
-  width: 400px;
-  height: 400px;
-  bottom: -150px;
-  right: -150px;
-  animation-delay: 2s;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.2;
-  }
-}
-
-.feature-list {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: rgba(212, 175, 55, 0.1);
-  padding: 15px 30px;
-  border-radius: 50px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  transition: all 0.3s;
-}
-
-.feature-item:hover {
-  background: rgba(212, 175, 55, 0.25);
-  transform: translateX(10px);
-}
-
-.feature-icon {
-  font-size: 24px;
-}
-
-.feature-text {
-  color: #D4AF37;
-  font-weight: 600;
-  font-size: 16px;
-}
 
 /* Right Side - Login Form */
 .login-form-section {
@@ -250,9 +170,9 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #C9A84C;
+  border-color: #D4AF37;
   background: white;
-  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
 }
 
 .form-group input::placeholder {
@@ -262,7 +182,7 @@
 .login-button {
   width: 100%;
   padding: 15px;
-  background: linear-gradient(135deg, #C9A84C 0%, #B8960C 100%);
+  background: #D4AF37;
   color: white;
   border: none;
   border-radius: 8px;
@@ -276,8 +196,9 @@
 }
 
 .login-button:hover:not(:disabled) {
+  background: #C9A84C;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(201, 168, 76, 0.4);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
 }
 
 .login-button:disabled {
@@ -303,7 +224,7 @@
   background-color: #f0f0f0;
   padding: 3px 8px;
   border-radius: 4px;
-  color: #C9A84C;
+  color: #D4AF37;
   font-weight: 700;
   font-size: 13px;
 }
@@ -368,11 +289,6 @@
     font-size: 26px;
   }
 
-  .circle-1,
-  .circle-2,
-  .circle-3 {
-    display: none;
-  }
 }
 
 @media (max-width: 480px) {

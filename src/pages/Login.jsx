@@ -66,21 +66,31 @@ const Login = () => {
         <div className="branding-content">
           <div className="logo-wrapper">
             <div className="logo-circle">
-              <img src="/kanaka-logo.png" alt="Kanaka Logo" className="logo-image" />
+              <svg className="shopping-bag-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                {/* Shopping bag outline */}
+                <path d="M 20 35 L 25 85 C 25 88 27 90 30 90 L 70 90 C 73 90 75 88 75 85 L 80 35 Z" 
+                      fill="none" 
+                      stroke="#D4AF37" 
+                      strokeWidth="3" 
+                      strokeLinejoin="round"/>
+                {/* Bag handles */}
+                <path d="M 35 35 C 35 25 40 20 50 20 C 60 20 65 25 65 35" 
+                      fill="none" 
+                      stroke="#D4AF37" 
+                      strokeWidth="3" 
+                      strokeLinecap="round"/>
+                {/* K letter */}
+                <text x="50" y="65" 
+                      fontSize="32" 
+                      fontWeight="700" 
+                      fill="#D4AF37" 
+                      textAnchor="middle" 
+                      fontFamily="Georgia, serif">K</text>
+              </svg>
             </div>
           </div>
+          <h1 className="brand-name">KANAKA</h1>
           
-          
-          <div className="decorative-elements">
-            <div className="circle circle-1"></div>
-            <div className="circle circle-2"></div>
-            <div className="circle circle-3"></div>
-          </div>
-          <div className="feature-list">
-            
-            
-            
-          </div>
         </div>
       </div>
 

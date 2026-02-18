@@ -20,6 +20,7 @@ const AdminDashboard = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [userSearchQuery, setUserSearchQuery] = useState('');
   
   // Daily report states
   const [dailyReportFiles, setDailyReportFiles] = useState([]);
@@ -274,34 +275,46 @@ const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       <div className="dashboard-header">
-        <div>
-          <h1>Admin Dashboard</h1>
-          <p>Welcome, {user?.username}!</p>
-        </div>
-        <div className="profile-section">
-          <div className="profile-icon" onClick={toggleProfileDropdown}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="#D4AF37">
-              <circle cx="12" cy="8" r="4"/>
-              <path d="M12 14c-6 0-8 3-8 5v1h16v-1c0-2-2-5-8-5z"/>
-            </svg>
+        <div className="header-left">
+          <div className="header-avatar">{user?.username?.charAt(0).toUpperCase() || 'A'}</div>
+          <div>
+            <h1>Admin Dashboard</h1>
+            <p>Welcome back, {user?.email || user?.username}</p>
           </div>
-          {showProfileDropdown && (
-            <div className="profile-dropdown">
-              <div className="profile-dropdown-content">
-                <div className="profile-info">
-                  <p className="profile-name">{user?.username}</p>
-                  <p className="profile-role">{user?.role}</p>
-                </div>
-                <div className="dropdown-divider"></div>
-                <button onClick={handleLogout} className="logout-dropdown-btn">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-                  </svg>
-                  Logout
-                </button>
-              </div>
+        </div>
+        <div className="header-right">
+          <button className="header-icon-btn" title="Notifications">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+            </svg>
+          </button>
+          <button className="header-icon-btn" title="Settings">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+            </svg>
+          </button>
+          <div className="profile-section">
+            <div className="profile-icon" onClick={toggleProfileDropdown}>
+              {user?.username?.charAt(0).toUpperCase() || 'A'}
             </div>
-          )}
+            {showProfileDropdown && (
+              <div className="profile-dropdown">
+                <div className="profile-dropdown-content">
+                  <div className="profile-info">
+                    <p className="profile-name">{user?.username}</p>
+                    <p className="profile-role">{user?.role}</p>
+                  </div>
+                  <div className="dropdown-divider"></div>
+                  <button onClick={handleLogout} className="logout-dropdown-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -336,7 +349,12 @@ const AdminDashboard = () => {
         {activeTab === 'dailyReport' && (
           <div className="daily-report-section">
             <div className="section-header">
-              <h2>📊 Daily Upload Report - {new Date(reportDate).toLocaleDateString('en-GB')}</h2>
+              <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{verticalAlign: 'middle', marginRight: '8px'}}>
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                Daily Upload Report - {new Date(reportDate).toLocaleDateString('en-GB')}
+              </h2>
             </div>
             
             {/* Date Filter Controls */}
@@ -402,23 +420,6 @@ const AdminDashboard = () => {
               </div>
             ) : (
               <div className="daily-report-content">
-                <div className="report-summary">
-                  <div className="summary-card">
-                    <div className="summary-icon">📁</div>
-                    <div className="summary-details">
-                      <h3>{dailyReportFiles.length}</h3>
-                      <p>Total Uploads</p>
-                    </div>
-                  </div>
-                  <div className="summary-card">
-                    <div className="summary-icon">👥</div>
-                    <div className="summary-details">
-                      <h3>{new Set(dailyReportFiles.map(f => f.user_username)).size}</h3>
-                      <p>Active Users</p>
-                    </div>
-                  </div>
-                </div>
-                
                 <div className="daily-uploads-table">
                   <h3>Uploads by User</h3>
                   <table className="report-table">
@@ -497,10 +498,27 @@ const AdminDashboard = () => {
                                         <div className="file-card-header">
                                           <div className="file-icon-name">
                                             <span className="file-emoji">
-                                              {file.file_type?.startsWith('image/') ? '🖼️' : 
-                                               file.name.endsWith('.pdf') ? '📄' : 
-                                               file.name.endsWith('.doc') || file.name.endsWith('.docx') ? '📝' : 
-                                               file.name.endsWith('.xls') || file.name.endsWith('.xlsx') ? '📊' : '📎'}
+                                              {file.file_type?.startsWith('image/') ? (
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                                                </svg>
+                                              ) : file.name.endsWith('.pdf') ? (
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                  <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                                </svg>
+                                              ) : file.name.endsWith('.doc') || file.name.endsWith('.docx') ? (
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                  <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                                                </svg>
+                                              ) : file.name.endsWith('.xls') || file.name.endsWith('.xlsx') ? (
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                                                </svg>
+                                              ) : (
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                                  <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+                                                </svg>
+                                              )}
                                             </span>
                                             <div className="file-info">
                                               <strong>{file.heading || file.name}</strong>
@@ -536,7 +554,10 @@ const AdminDashboard = () => {
                                               className="download-btn-small"
                                               title="Download file"
                                             >
-                                              💾 Download
+                                              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                                              </svg>
+                                              {' '}Download
                                             </a>
                                           )}
                                           {file.file_type?.startsWith('image/') && file.file_url && (
@@ -547,7 +568,10 @@ const AdminDashboard = () => {
                                               className="preview-btn-small"
                                               title="Preview image"
                                             >
-                                              👁️ Preview
+                                              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                              </svg>
+                                              {' '}Preview
                                             </a>
                                           )}
                                         </div>
@@ -572,12 +596,26 @@ const AdminDashboard = () => {
           <div className="users-section">
             <div className="section-header">
               <h2>Manage Users</h2>
-              <button 
-                onClick={() => setShowCreateUser(!showCreateUser)}
-                className="create-user-btn"
-              >
-                {showCreateUser ? 'Cancel' : '+ Create New User'}
-              </button>
+              <div className="header-actions">
+                <div className="search-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#999">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                  </svg>
+                  <input 
+                    type="text" 
+                    placeholder="Search users..." 
+                    className="search-input"
+                    value={userSearchQuery}
+                    onChange={(e) => setUserSearchQuery(e.target.value)}
+                  />
+                </div>
+                <button 
+                  onClick={() => setShowCreateUser(!showCreateUser)}
+                  className="create-user-btn"
+                >
+                  + Create New User
+                </button>
+              </div>
             </div>
 
             {showCreateUser && <CreateUserForm onUserCreated={() => { loadUsers(); setShowCreateUser(false); }} />}
@@ -587,55 +625,91 @@ const AdminDashboard = () => {
                 <p className="loading">Loading users...</p>
               ) : users.length === 0 ? (
                 <p className="no-data">No users created yet. Create your first user!</p>
-              ) : (
-                <table className="users-table">
-                  <thead>
-                    <tr>
-                      <th>Username</th>
-                      <th>Shop Name</th>
-                      <th>Staff Name</th>
-                      <th>Mobile</th>
-                      <th>Email</th>
-                      <th>Created At</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {users.map(u => (
+              ) : (() => {
+                const filteredUsers = users.filter(u => {
+                  if (!userSearchQuery) return true;
+                  const query = userSearchQuery.toLowerCase();
+                  return (
+                    u.username?.toLowerCase().includes(query) ||
+                    u.staff_name?.toLowerCase().includes(query) ||
+                    u.shop_name?.toLowerCase().includes(query) ||
+                    u.mobile_number?.includes(query) ||
+                    u.email?.toLowerCase().includes(query)
+                  );
+                });
+
+                return filteredUsers.length === 0 ? (
+                  <p className="no-data">No users found matching "{userSearchQuery}"</p>
+                ) : (
+                  <table className="users-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>USER INFO</th>
+                        <th>SHOP</th>
+                        <th>CONTACT</th>
+                        <th>CREATED</th>
+                        <th>ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredUsers.map((u, index) => (
                       <tr key={u.id}>
-                        <td data-label="Username"><strong>{u.username}</strong></td>
-                        <td data-label="Shop Name">{u.shop_name || '-'}</td>
-                        <td data-label="Staff Name">{u.staff_name || '-'}</td>
-                        <td data-label="Mobile">{u.mobile_number || '-'}</td>
-                        <td data-label="Email">{u.email || '-'}</td>
-                        <td data-label="Created At">{new Date(u.created_at).toLocaleDateString('en-GB')}</td>
+                        <td data-label="#">{index + 1}</td>
+                        <td data-label="User Info">
+                          <div className="user-info-cell">
+                            <div className="user-avatar">{u.username.charAt(0).toUpperCase()}</div>
+                            <div>
+                              <div className="user-name">{u.username}</div>
+                              <div className="user-staff-name">{u.staff_name || 'N/A'}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td data-label="Shop">
+                          {u.shop_name ? <span className="shop-badge">{u.shop_name}</span> : '-'}
+                        </td>
+                        <td data-label="Contact">
+                          <div>{u.mobile_number || '-'}</div>
+                          {u.email && <div className="user-email-small">{u.email}</div>}
+                        </td>
+                        <td data-label="Created">{new Date(u.created_at).toLocaleDateString('en-GB')}</td>
                         <td data-label="Actions">
-                          <button 
-                            onClick={() => handleViewUser(u)}
-                            className="view-user-btn"
-                            title="View details"
-                          >
-                            👁️ View
-                          </button>
-                          <button 
-                            onClick={() => handleEditUser(u)}
-                            className="edit-btn"
-                            title="Edit user"
-                          >
-                            ✏️ Edit
-                          </button>
-                          <button 
-                            onClick={() => deleteUser(u.id)}
-                            className="delete-btn"
-                          >
-                            Delete
-                          </button>
+                          <div className="action-icons">
+                            <button 
+                              onClick={() => handleViewUser(u)}
+                              className="view-user-btn"
+                              title="View details"
+                            >
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                              </svg>
+                            </button>
+                            <button 
+                              onClick={() => handleEditUser(u)}
+                              className="edit-btn"
+                              title="Edit user"
+                            >
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                              </svg>
+                            </button>
+                            <button 
+                              onClick={() => deleteUser(u.id)}
+                              className="delete-btn"
+                              title="Delete user"
+                            >
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                              </svg>
+                            </button>
+                          </div>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+                      ))}
+                    </tbody>
+                  </table>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -662,7 +736,10 @@ const AdminDashboard = () => {
                     onDrop={handleDrop}
                   >
                     <label htmlFor="admin-file-upload" className="file-upload-label">
-                      📎 {isDragging ? 'Drop files here' : 'Select Files or Drag & Drop'}
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{verticalAlign: 'middle', marginRight: '8px'}}>
+                        <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+                      </svg>
+                      {isDragging ? 'Drop files here' : 'Select Files or Drag & Drop'}
                     </label>
                     <input
                       type="file"
@@ -677,7 +754,11 @@ const AdminDashboard = () => {
                         <ul className="files-list">
                           {selectedFiles.map((file, index) => (
                             <li key={index}>
-                              <span className="file-icon">📄</span>
+                              <span className="file-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                                </svg>
+                              </span>
                               <span className="file-name">{file.name}</span>
                               <span className="file-size">
                                 ({(file.size / 1024).toFixed(2)} KB)
@@ -783,7 +864,10 @@ const AdminDashboard = () => {
                       className="clear-btn"
                       disabled={uploading}
                     >
-                      🗑️ Clear Form
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{verticalAlign: 'middle', marginRight: '4px'}}>
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                      </svg>
+                      Clear Form
                     </button>
                   </div>
                 </form>
@@ -835,7 +919,17 @@ const AdminDashboard = () => {
                       className="toggle-password-btn"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? '🔒' : '👁️'}
+                      {showPassword ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" strokeWidth="2"/>
+                        </svg>
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -1166,17 +1260,25 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
                     {getFileTypeIcon(file.name)}
                   </td>
                   <td className="actions-cell" data-label="Actions">
-                    <button onClick={() => handleViewFile(file)} className="view-btn">
-                      👁️ View
+                    <button onClick={() => handleViewFile(file)} className="view-btn" title="View details">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                      </svg>
                     </button>
-                    <button onClick={() => handleEditFile(file)} className="edit-btn">
-                      ✏️ Edit
+                    <button onClick={() => handleEditFile(file)} className="edit-btn" title="Edit file">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                      </svg>
                     </button>
-                    <button onClick={() => handleDownload(file)} className="download-btn-table">
-                      ⬇️ Download
+                    <button onClick={() => handleDownload(file)} className="download-btn-table" title="Download file">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                      </svg>
                     </button>
-                    <button onClick={() => deleteFile(file.id)} className="delete-btn-table">
-                      🗑️ Delete
+                    <button onClick={() => deleteFile(file.id)} className="delete-btn-table" title="Delete file">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                      </svg>
                     </button>
                   </td>
                 </tr>
@@ -1296,11 +1398,17 @@ const AdminOwnFiles = ({ refreshTrigger }) => {
                     rel="noopener noreferrer"
                     className="open-file-btn"
                   >
-                    🔗 Open File
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+                    </svg>
+                    {' '}Open File
                   </a>
                 )}
                 <button onClick={() => handleDownload(viewingFile)} className="download-btn">
-                  ⬇️ Download
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                  </svg>
+                  {' '}Download
                 </button>
                 <button onClick={handleCloseModal} className="close-btn">
                   Close

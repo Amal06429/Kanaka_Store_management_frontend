@@ -479,7 +479,11 @@ const UserDashboard = () => {
                   onDrop={handleDrop}
                 >
                   <label htmlFor="file-upload" className="upload-label-compact">
-                    <span className="upload-icon-small">📎</span>
+                    <span className="upload-icon-small">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+                      </svg>
+                    </span>
                     <span className="upload-text-small">
                       {selectedFiles.length > 0 
                         ? `${selectedFiles.length} file(s) selected: ${selectedFiles.map(f => f.name).join(', ')}`
@@ -574,14 +578,20 @@ const UserDashboard = () => {
                         </span> 
                       </td>
                       <td className="actions-cell" data-label="Actions">
-                        <button onClick={() => handleViewFile(file)} className="view-btn">
-                          👁️ View
+                        <button onClick={() => handleViewFile(file)} className="view-btn" title="View details">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                          </svg>
                         </button>
-                        <button onClick={() => handleEditFile(file)} className="edit-btn">
-                          ✏️ Edit
+                        <button onClick={() => handleEditFile(file)} className="edit-btn" title="Edit file">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                          </svg>
                         </button>
-                        <button onClick={() => deleteFile(file.id)} className="delete-btn-table">
-                          🗑️ Delete
+                        <button onClick={() => deleteFile(file.id)} className="delete-btn-table" title="Delete file">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                          </svg>
                         </button>
                       </td>
                     </tr>
@@ -712,11 +722,17 @@ const UserDashboard = () => {
                     rel="noopener noreferrer"
                     className="open-file-btn"
                   >
-                    🔗 Open File
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+                    </svg>
+                    {' '}Open File
                   </a>
                 )}
                 <button onClick={() => handleDownload(viewingFile.file_url, viewingFile.name)} className="download-btn">
-                  ⬇️ Download
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                  </svg>
+                  {' '}Download
                 </button>
                 <button onClick={handleCloseModal} className="close-btn">
                   Close
