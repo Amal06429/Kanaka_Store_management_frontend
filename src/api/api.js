@@ -177,7 +177,7 @@ export const filesAPI = {
       // Check content type to handle HTML error pages
       const contentType = response.headers.get('content-type');
       
-      if (!response.ok) {
+      if (!response.ok) { 
         let errorMessage = 'Upload failed';
         
         if (contentType && contentType.includes('application/json')) {
