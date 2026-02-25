@@ -128,7 +128,6 @@ const UserDashboard = () => {
         formData.append('file', file);
         formData.append('heading', heading);
         formData.append('description', description);
-        formData.append('uploaded_at', uploadDate);
         formData.append('document_type', documentType);
         if (documentType === 'cheque' && amount) {
           formData.append('amount', amount);
@@ -791,7 +790,6 @@ const EditFileModal = ({ file, onClose, onUpdate }) => {
       const updateData = {
         heading: formData.heading,
         description: formData.description,
-        uploaded_at: formData.uploaded_at,
         document_type: formData.document_type,
       };
 
